@@ -163,7 +163,7 @@ def filtering(_=None):
     # img_back = np.abs(img_back)
 
     img_back = depth_quantize(img_back) # 量化回8bit深度
-    # 显示图像  [滤波后的时域图像  滤波核图像   滤波后的频域叠加图像]
+    # 显示图像  [滤波后的时域图像   滤波核图像   滤波后的频域叠加图像]
     cv2.imshow(imageWin, combine_images([img_back, fft_image(filterMat),fft_image(filteredMat)]))
 
 
@@ -179,21 +179,13 @@ if __name__ == '__main__':
 
     cv2.createTrackbar('kernel size', filterWin, 20, int(min(rows, cols)/4), filtering)# 创建滑动条
     cv2.createTrackbar('filter type', filterWin, BUTTERWORTH_FILTER, 2, filtering)# 创建flag 滚动条
-     #0 ideal #1 Butterworth   #2 Gaussian
+     #0 ideal    #1 Butterworth    #2 Gaussian
     cv2.createTrackbar('Butterworth n', filterWin, 1, 5, filtering) # 巴特沃斯的阶数 滚动条
     cv2.createTrackbar('low/high pass', filterWin, LOW_PASS, 1, filtering)# lh: 滤波器是低通还是高通， 0 为低通， 1为高通
    
     #cv2.imshow(imageWin,img)
 
     fftShiftMat = fft(img) # 得到频谱
-    # cfftMat = np.fft.fft2(img)
-    # cfftMat = np.fft.fftshift(cfftMat)
-    # fftMat = cfftMat
-    # print(cfftMat.real.shape)
-    # fftMat = np.zeros(img.shape+(2,),dtype = np.float32)
-    # print(fftMat.shape)
-    # fftMat[:,:,0] = cfftMat.real
-    # fftMat[:,:,1] = cfftMat.imag
 
     
 
