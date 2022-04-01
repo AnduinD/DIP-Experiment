@@ -45,7 +45,7 @@ UNIFORM_NOISE = 4
 SALT_PEPPER_NOISE = 5
 
 ## 添加各种噪声的函数
-def gaussian_noise(img, mean=10, sigma=30):
+def gaussian_noise(img, mean=6, sigma=20):
     '''
     添加高斯噪声
     @param img: 原图
@@ -85,7 +85,7 @@ def exponent_noise(img,a=10):
     exp_out = depth_quantize(exp_out)
     return exp_out
 
-def uniform_noise(img,a=10,b=150):
+def uniform_noise(img,a=10,b=60):
     '''
     添加均匀噪声
     @param image: 需要加噪的图片
@@ -95,7 +95,6 @@ def uniform_noise(img,a=10,b=150):
     '''
     assert a<b,"a should be smaller than b"
     noise = np.random.uniform(low=a,high=b,size=img.shape) #生成均匀噪声矩阵
-    np.random.uniform
     uf_out = img+noise #叠加噪声
     uf_out = depth_quantize(uf_out) #灰度量化
     return uf_out
@@ -176,7 +175,7 @@ def harmonic_mean_filter(img, kernel_size):
 
 def inv_harmonic_mean_filter(img, kernel_size, Q = 1.5):
     '''逆谐波均值滤波器'''
-    Q = cv2.getTrackbarPos('Q(inv harmonic)', filterWin)
+    # Q = cv2.getTrackbarPos('Q(inv harmonic)', filterWin)
     img_out = np.zeros(img.shape)
     rows,cols = img.shape
     pad = int(kernel_size / 2)
@@ -255,7 +254,7 @@ def mid_filter(img, kernel_size):
 
 def cor_alpha_filter(img,kernel_size,d=2):
     '''修正阿尔法均值滤波器''' # 统计排序和算数均值的结合
-    d = cv2.getTrackbarPos('d(cor alpha)', filterWin)
+    # d = cv2.getTrackbarPos('d(cor alpha)', filterWin)
     kernel_size = max(int(np.sqrt(2*d+1)),kernel_size)
     img_out = np.zeros(img.shape)
     rows,cols = img.shape
@@ -373,11 +372,11 @@ if __name__ == '__main__':
     cv2.namedWindow(imageWin)
     cv2.namedWindow(filterWin,cv2.WINDOW_AUTOSIZE)# 创建窗体对象
 
-    cv2.createTrackbar('noise type', filterWin, GAUSSIAN_NOISE, NOISE_MAX_TYPE, onChange)# 创建滑动条
+    cv2.createTrackbar('noise type', filterWin, UNIFORM_NOISE, NOISE_MAX_TYPE, onChange)# 创建滑动条
     cv2.createTrackbar('filter type', filterWin, ADAPTIVE_LOCAL_FILTER, FILTER_MAX_TYPE, onChange)
-    cv2.createTrackbar('kernel size', filterWin, 3, 10, onChange)
-    cv2.createTrackbar('Q(inv harmonic)', filterWin, 1, MAX_Q, onChange) #除核规模之外的参数（反谐波的Q）
-    cv2.createTrackbar('d(cor alpha)', filterWin, 1, MAX_d, onChange) #除核规模之外的参数（修阿尔法的d）
+    cv2.createTrackbar('kernel size', filterWin, 2, 10, onChange)
+    # cv2.createTrackbar('Q(inv harmonic)', filterWin, 1, MAX_Q, onChange) #除核规模之外的参数（反谐波的Q）
+    # cv2.createTrackbar('d(cor alpha)', filterWin, 1, MAX_d, onChange) #除核规模之外的参数（修阿尔法的d）
   
     onChange() #执行操作
     #cv2.resizeWindow(filterWin, 1024, 20) # 这句话没啥卵用，只是让滚动条窗口看着好调一点

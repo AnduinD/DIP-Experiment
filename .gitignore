@@ -146,6 +146,9 @@ cython_debug/
 
 
 # document
-*.pdf
+# *.pdf # 报告的pdf上传感觉也没有什么大问题叭
 *.docx
 *.doc
+
+# image resource
+*.png
